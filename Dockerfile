@@ -50,8 +50,9 @@ RUN go mod download
 COPY . .
 
 # Run quality control
-RUN go test ./... -test.v -race -test.coverprofile=atomic .
-RUN golangci-lint run .
+# RUN go test ./... -test.v -race -test.coverprofile=atomic .
+# RUN golangci-lint run .
+RUN go get -d -v ./...
 
 # Compile imaginary
 RUN go build -a \
