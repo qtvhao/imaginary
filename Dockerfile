@@ -94,7 +94,18 @@ ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so
 ENV PORT 9000
 
 # Drop privileges for non-UID mapped environments
-USER nobody
+# USER nobody
+# RUN samba-client \
+# cifs-utils \
+RUN DEBIAN_FRONTEND=noninteractive \
+  apt-get update && \
+  apt-get install --no-install-recommends -y \
+  samba-client \
+  cifs-utils && \
+  apt-get autoremove -y && \
+  apt-get autoclean && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Run the entrypoint command by default when the container starts.
 ENTRYPOINT ["/usr/local/bin/imaginary"]
